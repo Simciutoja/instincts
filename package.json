@@ -39,7 +39,7 @@
   "lint-staged": {
     "*": [
       "oxlint",
-      "oxfmt --write"
+      "oxfmt --write --no-error-on-unmatched-pattern"
     ]
   },
   "packageManager": "pnpm@12.4.2"
