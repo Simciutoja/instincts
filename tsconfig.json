@@ -1,0 +1,3 @@
+{
+  "extends": "@gta6-message/config/tsconfig.base.json"
+}
