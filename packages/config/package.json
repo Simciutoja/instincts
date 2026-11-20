@@ -1,5 +1,11 @@
 {
   "name": "@gta6-message/config",
   "version": "0.0.0",
-  "private": true
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Szymon Bludnik",
+    "email": "szymon@mscode.pl",
+    "url": "https://szymonbludnik.dev"
+  }
 }

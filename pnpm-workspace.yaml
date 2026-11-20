@@ -7,7 +7,6 @@ allowBuilds:
   msgpackr-extract: true
   workerd: true
 catalog:
-  zod: ^4.6.7
   typescript: ^6.0.3
   varlock: 1.25.0
   "@cloudflare/workers-types": ^5.20261112.1

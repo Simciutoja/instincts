@@ -1,15 +1,18 @@
 {
   "name": "@gta6-message/infra",
   "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Szymon Bludnik",
+    "email": "szymon@mscode.pl",
+    "url": "https://szymonbludnik.dev"
+  },
   "type": "module",
   "scripts": {
     "check-types": "tsc --noEmit",
     "dev": "alchemy dev",
     "deploy": "alchemy deploy",
     "destroy": "alchemy destroy"
-  },
-  "dependencies": {
-    "zod": "catalog:"
   },
   "devDependencies": {
     "@alchemy.run/cloudflare": "2.0.0-beta.86",

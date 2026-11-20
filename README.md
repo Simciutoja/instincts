@@ -1,79 +1,105 @@
-# gta6-message
+# Trust Your Instinct Generator
 
-This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines Astro, and more.
+Make your own GTA VI “Trust Your Instinct” notification. Type a message, see it on the screenshot,
+download the PNG or copy it to your clipboard.
+
+**Live:** [instinct.szymonbludnik.dev](https://instinct.szymonbludnik.dev)
+
+![Preview](apps/web/public/og.png)
 
 ## Features
 
-- **TypeScript** - For type safety and improved developer experience
-- **Astro** - The web framework for content-driven websites
-- **TailwindCSS** - Utility-first CSS for rapid UI development
-- **Husky** - Git hooks for code quality
-- **Oxlint** - Oxlint + Oxfmt (linting & formatting)
-- **Turborepo** - Optimized monorepo build system
+- Live preview drawn on a `<canvas>`, using the same font, tilt and slight blur as the original photo of the screen
+- Panel grows smoothly when the text needs more lines (up to 3 lines / 100 characters)
+- Presets for a quick start
+- Download as PNG or copy the image straight to the clipboard
+- Everything runs in the browser: the text never leaves your device
 
-## Getting Started
+## Tech stack
 
-First, install the dependencies:
+- [Astro](https://astro.build) with React islands
+- [Tailwind CSS v4](https://tailwindcss.com) and [shadcn/ui](https://ui.shadcn.com)
+- [Framer Motion](https://motion.dev) for animations
+- [Turborepo](https://turbo.build) + [pnpm](https://pnpm.io) workspaces
+- [Alchemy](https://alchemy.run) for deploying to Cloudflare
+- [Oxlint](https://oxc.rs) / Oxfmt and Husky for linting and formatting
+
+## Getting started
+
+Requirements: Node.js (current LTS) and pnpm.
 
 ```bash
 pnpm install
+pnpm dev:web
 ```
 
-Then, run the development server:
+Open [http://localhost:4321](http://localhost:4321).
 
-```bash
-pnpm run dev
+## Scripts
+
+| Command            | Description                                |
+| ------------------ | ------------------------------------------ |
+| `pnpm dev:web`     | Start the Astro dev server                 |
+| `pnpm dev`         | Start the app through Alchemy (Cloudflare) |
+| `pnpm check-types` | Type-check all packages                    |
+| `pnpm check`       | Lint with Oxlint and format with Oxfmt     |
+| `pnpm deploy`      | Deploy to Cloudflare                       |
+| `pnpm destroy`     | Remove the Cloudflare deployment           |
+
+## Project structure
+
+```
+apps/web
+├── public/                 base screenshot, OG image, favicon
+└── src/
+    ├── components/
+    │   ├── generator/      editor, presets, export buttons, preview
+    │   └── ui/             shadcn/ui components
+    ├── hooks/              canvas rendering and element size hooks
+    ├── layouts/            HTML shell, meta tags, analytics
+    ├── lib/                text rendering, smooth scroll, motion presets
+    ├── pages/              index page
+    └── styles/             theme and global styles
+packages/
+├── config/                 shared TypeScript config
+└── infra/                  Alchemy stack for Cloudflare
 ```
 
-Open [http://localhost:4321](http://localhost:4321) in your browser to see the web application.
+## How the image is made
 
-## Environment Configuration
+`apps/web/src/lib/render-message.ts` takes the base screenshot (`public/base.webp`, 2000×1143)
+and draws the text over it:
 
-Each app owns its environment schema in `.env.schema`. Varlock generates `src/env.ts` during installation; run `pnpm run env:generate` after changing a schema. Commit schemas, and keep secrets in ignored env files or your deployment platform.
-
-Import the generated `ENV` accessor in application code. Shared database and auth packages receive configuration or initialized clients from the application. See [Varlock's monorepo guide](https://varlock.dev/guides/monorepos/).
-
-For Cloudflare, Alchemy loads and validates deployment inputs with `varlock/auto-load` in its Node/Bun deployment process. Worker code reads native bindings; web clients use the framework's public env API through `src/env.public.ts` where needed. Alchemy supplies resource URLs and managed database credentials. In-Worker Varlock protections are deferred until an official Alchemy integration is available; see [the non-Wrangler deployment guidance](https://varlock.dev/integrations/cloudflare/#non-wrangler-deploy-tools-alchemy-sst-pulumi).
-
-Bun's automatic env loading is disabled in `bunfig.toml`; the framework integration or server bootstrap loads Varlock. Node deployments must include Varlock and its dependencies alongside the app schema.
-
-Run standalone Node/Bun tools that use Varlock from the owning app directory so they load that app's schema and env files. `env:generate` only generates TypeScript files; it does not initialize environment values in a subsequent command.
+1. The font size is calibrated so a reference line matches its width in the original photo.
+2. Text is wrapped to the panel width, and very long words are split.
+3. For each extra line, a thin strip of the panel is stretched so the panel grows.
+4. Each line is slightly rotated to follow the perspective of the photographed TV, then softened
+   with a small blur and shadow.
 
 ## Deployment
 
-### Alchemy
-
-- Target: web on Cloudflare
-- Configure provider accounts: `cd packages/infra && pnpm exec alchemy profile edit`
-- Dev: pnpm run dev
-- Deploy: pnpm run deploy
-- Destroy: pnpm run destroy
-
-`alchemy profile edit` stores the selected Axiom, Cloudflare, Neon, PlanetScale, and/or Prisma provider profiles under `~/.alchemy`; no provider-specific setup command is required by this scaffold.
-
-Deploys are staged and default to a personal `dev_<username>` stage. For production, run the deploy with an explicit stage from `packages/infra`:
+The site is deployed to Cloudflare with Alchemy. Set `ALCHEMY_PASSWORD` in `packages/infra/.env`,
+then run:
 
 ```bash
-cd packages/infra && pnpm exec alchemy deploy --stage production
+pnpm deploy
 ```
 
-## Git Hooks and Formatting
+## Privacy
 
-- Initialize hooks: `pnpm run prepare`
-- Run checks: `pnpm run check`
+The image is generated in the browser and the message is never sent anywhere. The site uses a
+simple analytics script to count visits.
 
-## Project Structure
+## License
 
-```
-gta6-message/
-├── apps/
-│   ├── web/         # Frontend application (Astro)
-```
+The code is released under the [MIT License](LICENSE). The base screenshot (`apps/web/public/base.webp`)
+is not covered by it, see the disclaimer below.
 
-## Available Scripts
+## Disclaimer
 
-- `pnpm run dev`: Start all applications in development mode
-- `pnpm run build`: Build all applications
-- `pnpm run dev:web`: Start only the web application
-- `pnpm run check-types`: Check TypeScript types across all apps
-- `pnpm run check`: Run Oxlint and Oxfmt
+Fan-made project, not affiliated with or endorsed by Rockstar Games or Take-Two Interactive.
+Grand Theft Auto and all related assets belong to their respective owners.
+
+---
+
+Made with ♥ by [Simciutoja](https://szymonbludnik.dev/) 🇵🇱

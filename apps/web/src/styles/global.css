@@ -1,8 +1,109 @@
 @import "tailwindcss";
 
-/* Add your theme customizations here. */
-/* See the TailwindCSS v4 docs for more info: https://tailwindcss.com/docs/v4-beta */
+@custom-variant dark (&:is(.dark *));
 
-@theme {
-  --font-sans: "Inter", sans-serif;
+:root {
+  --radius: 0.75rem;
+
+  --background: #121110;
+  --foreground: #e9e6df;
+  --card: #181715;
+  --card-foreground: #e9e6df;
+  --popover: #181715;
+  --popover-foreground: #e9e6df;
+  --primary: #ec4f93;
+  --primary-foreground: #1a0a12;
+  --secondary: #24221f;
+  --secondary-foreground: #e9e6df;
+  --muted: #1e1d1a;
+  --muted-foreground: #8f8c84;
+  --accent: #1e1d1a;
+  --accent-foreground: #e9e6df;
+  --destructive: #d98a7e;
+  --border: #262420;
+  --input: #34312c;
+  --ring: #ec4f93;
+
+  --line-2: #34312c;
+  --rule: #4a4741;
+  --ok: #8fbf8a;
+  --glow: #1f1d1a;
+  --pink-soft: #ec4f9314;
+}
+
+@theme inline {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-line-2: var(--line-2);
+  --color-rule: var(--rule);
+  --color-ok: var(--ok);
+  --color-glow: var(--glow);
+  --color-pink-soft: var(--pink-soft);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    html {
+      scrollbar-color: var(--line-2) var(--background);
+      scrollbar-width: thin;
+    }
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--line-2);
+    border: 3px solid var(--background);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--rule);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: var(--primary);
+  }
+  ::-webkit-scrollbar-corner {
+    background: var(--background);
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 35%, transparent);
+  }
 }

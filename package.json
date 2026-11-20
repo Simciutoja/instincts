@@ -1,6 +1,12 @@
 {
   "name": "gta6-message",
   "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Szymon Bludnik",
+    "email": "szymon@mscode.pl",
+    "url": "https://szymonbludnik.dev"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -17,9 +23,6 @@
     "postinstall": "varlock codegen --path ./apps/web/",
     "check": "oxlint && oxfmt --write",
     "prepare": "husky"
-  },
-  "dependencies": {
-    "zod": "catalog:"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "catalog:",
